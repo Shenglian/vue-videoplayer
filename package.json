@@ -1,0 +1,23 @@
+{
+  "name": "vue-videoplayer",
+  "version": "1.0.0",
+  "description": "videoplayer of Vuejs",
+  "author": "Sheng",
+  "main": "vue-videoplayer.vue",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shenglian/vue-videoplayer.git"
+  },
+  "keywords": [
+    "vue",
+    "vue-videoplayer"
+  ],
+  "homepage": "https://github.com/Shenglian/vue-videoplayer",
+  "bugs": {
+    "url": "https://github.com/Shenglian/vue-videoplayer/issues"
+  },
+  "license": "MIT"
+}

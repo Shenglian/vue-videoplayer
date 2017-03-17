@@ -5,14 +5,18 @@
         :class="{ isHide: hidePoster }"
         :style="{ backgroundImage: 'url(' + videoPoster + ')' }"></div>
 
-      <video id="video" name="media">
+      <video id="video" name="media"
+        @loadstart="loadstart"
+        @progress="progress"
+        @canplay="canplay">
           <source :src="videoSrc" :type="videoType">
       </video>
+
       <div class="video-bar">
-        <div class="video-play" @click="play">  
+        <div v-if="!isShowPlaying" class="video-play" @click="play">  
           <svg class="icon icon-play"><use xlink:href="#icon-play"></use></svg>
         </div>
-        <div class="video-pause" @click="pause">
+        <div v-if="isShowPlaying"class="video-pause" @click="pause">
           <svg class="icon icon-pause"><use xlink:href="#icon-pause"></use></svg>
         </div>
         <div class="video-load" @click="load">
@@ -39,58 +43,84 @@
 </template>
 
 <script>
-  export default {
-    name: 'videoplayer',
-    data() {
-      return {
-        hidePoster: false,
-        videoPoster: 'http://vjs.zencdn.net/v/oceans.png',
-        videoSrc: 'http://vjs.zencdn.net/v/oceans.mp4',
-        videoType: 'video/mp4',
-      }
-    },
-    mounted() {
-      document._video = document.getElementById("video");
 
-      if (document._video.controller != undefined && document._video.controller != null) {
-        document._controller = document._video.controller;
-        document._hasController = true;
-      } else {
-        document._controller = document._video.controller;
-        document._hasController = false;
-      }
+export default {
+  name: 'videoplayer',
+  data() {
+    return {
+      isShowPlaying: false,
+      hidePoster: false,
+      videoPoster: 'https://media.w3.org/2010/05/sintel/poster.png',
+      videoSrc: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
+      videoType: 'video/mp4',
+    }
+  },
+  mounted() {
+    this.initVideo();
+    this.getVideoController();
+  },
+  methods: {
+    initVideo() {
+      if (!document._video) {
+        
+        document._video = document.getElementById("video");
 
-      this.getController();
-    },
-    methods: {
-      startVideo() {
-        console.log('2')
-        this.getController().play();
-        this.hidePoster = true;
-      },
-      play() {
-        this.getController().play();
-      },
-      pause() {
-        this.getController().pause();
-      },
-      load() {
-        this.getController().load();
-        this.hidePoster = false;
-      },
-      getController() {
-        console.log('document._hasController', document._hasController);
-        if (document._hasController) {
-
-          console.log('document._controller', document._controller);
-          return document._controller;
+        if (document._video.controller != undefined && document._video.controller != null) {
+          document._controller = document._video.controller;
+          document._hasController = true;
         } else {
-          console.log('document._video', document._video);
-          return document._video;
+          document._controller = document._video.controller;
+          document._hasController = false;
         }
       }
-    }
+      
+    },
+    startVideo() {
+      this.play();
+
+      // 影片開始：
+      // 影片靜音狀態
+      // 影片封面隱藏
+      this.unmuted();
+      this.hidePoster = true;
+    },
+    muted() {
+      this.getVideoController().muted = false;
+    },
+    unmuted() {
+      this.getVideoController().muted = true;
+    },
+    play() {
+      this.isShowPlaying = true;
+      this.getVideoController().play();
+    },
+    pause() {
+      this.isShowPlaying = false;
+      this.getVideoController().pause();
+    },
+    load() {
+      this.getVideoController().load();
+      this.hidePoster = false;
+    },
+    getVideoController() {
+      if (document._hasController) {
+        return document._controller;
+      } else {
+        return document._video;
+      }
+    },
+    loadstart() {
+      console.log('loadstart');
+    },
+    progress() {
+      console.log('progress');
+    },
+    canplay() {
+      console.log('canplay');
+    },
   }
+}
+
 </script>
 
 <style lang="scss">

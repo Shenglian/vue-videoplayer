@@ -53,7 +53,7 @@ export default {
       videoPoster: 'https://media.w3.org/2010/05/sintel/poster.png',
       videoSrc: 'https://media.w3.org/2010/05/sintel/trailer.mp4',
       videoType: 'video/mp4',
-    }
+    };
   },
   mounted() {
     this.initVideo();
@@ -61,16 +61,17 @@ export default {
   },
   methods: {
     initVideo() {
-      if (!document._video) {
+      if (!document.videoplayer) {
         
-        document._video = document.getElementById("video");
+        document.videoplayer = document.getElementById('video');
 
-        if (document._video.controller != undefined && document._video.controller != null) {
-          document._controller = document._video.controller;
-          document._hasController = true;
+        if (document.videoplayer.controller !== undefined && 
+        document.videoplayer.controller != null) {
+          document.videoplayerController = document.videoplayer.controller;
+          document.videoplayerHasController = true;
         } else {
-          document._controller = document._video.controller;
-          document._hasController = false;
+          document.videoplayerController = document.videoplayer.controller;
+          document.videoplayerHasController = false;
         }
       }
       
@@ -103,11 +104,12 @@ export default {
       this.hidePoster = false;
     },
     getVideoController() {
-      if (document._hasController) {
-        return document._controller;
-      } else {
-        return document._video;
+      
+      if (document.videoplayerHasController) {
+        return document.videoplayerController;
       }
+
+      return document.videoplayer;
     },
     loadstart() {
       console.log('loadstart');
@@ -118,8 +120,8 @@ export default {
     canplay() {
       console.log('canplay');
     },
-  }
-}
+  },
+};
 
 </script>
 

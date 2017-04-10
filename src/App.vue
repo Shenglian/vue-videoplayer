@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <video-player>
-
-    </video-player>
+    <video-player></video-player>
   </div>
 </template>
 
@@ -19,3 +17,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+ #app {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+</style>
